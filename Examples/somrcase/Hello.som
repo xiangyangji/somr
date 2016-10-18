@@ -17,7 +17,7 @@ Hello = (
 		Person setAge: 10.
 		Person getAge println.
 		
-		"If you call setName or getName through p, it failed 
+		"If you call setName or getName through Person, it failed 
 		and error 'ERROR: Method setName: not found in class Person class' is throw out.
 		
 		Person setName: 'John'.
