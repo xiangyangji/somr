@@ -238,8 +238,9 @@ void Interpreter::doPushField( int bytecodeIndex ) {
 void Interpreter::doPushBlock( int bytecodeIndex ) {
     pVMMethod method = _METHOD;
 
-    pVMMethod blockMethod = (pVMMethod)(method->GetConstant(bytecodeIndex));
 
+    pVMObject  po =method->GetConstant(bytecodeIndex);
+    pVMMethod blockMethod = (pVMMethod)(po);
     int numOfArgs = blockMethod->GetNumberOfArguments();
 
     _FRAME->Push((pVMObject) _UNIVERSE->NewBlock(blockMethod, _FRAME,

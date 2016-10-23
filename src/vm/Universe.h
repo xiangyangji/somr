@@ -117,9 +117,9 @@ public:
     pVMArray      NewArrayList(ExtendedList<pVMObject>& list) const;
     pVMArray      NewArrayFromArgv(const vector<StdString>&) const;
     pVMBlock      NewBlock(pVMMethod, pVMFrame, int);
-    pVMClass      NewClass(pVMClass) const;
-    pVMFrame      NewFrame(pVMFrame, pVMMethod) const;
-    pVMMethod     NewMethod(pVMSymbol, size_t, size_t) const;
+    pVMClass      NewClass(pVMClass) ;
+    pVMFrame      NewFrame(pVMFrame, pVMMethod) ;
+    pVMMethod     NewMethod(pVMSymbol, size_t, size_t) ;
     pVMObject     NewInstance(pVMClass) const;
     pVMInteger    NewInteger(int32_t) const;
     pVMBigInteger NewBigInteger(int64_t) const;
@@ -129,7 +129,7 @@ public:
     pVMSymbol     NewSymbol(const StdString&);
     pVMString     NewString(const char*) const;
     pVMSymbol     NewSymbol(const char*);
-    pVMClass      NewSystemClass(void) const;
+    pVMClass      NewSystemClass(void) ;
 
     void          InitializeSystemClass(pVMClass, pVMClass, const char*);
 

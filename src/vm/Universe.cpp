@@ -710,12 +710,12 @@ pVMBlock Universe::NewBlock( pVMMethod method, pVMFrame context, int arguments) 
 
     result->SetMethod(method);
     result->SetContext(context);
-
+    this->SetGlobal(method->GetSignature(),(pVMObject)result);
     return result;
 }
 
 
-pVMClass Universe::NewClass( pVMClass classOfClass) const {
+pVMClass Universe::NewClass( pVMClass classOfClass)  {
     int numFields = classOfClass->GetNumberOfInstanceFields();
     pVMClass result;
     int additionalBytes = numFields * sizeof(pVMObject);
@@ -723,7 +723,7 @@ pVMClass Universe::NewClass( pVMClass classOfClass) const {
     else result = new (_HEAP) VMClass;
 
     result->SetClass(classOfClass);
-
+    this->SetGlobal(SymbolForChars("NewClass"),(pVMObject)result);
     return result;
 }
 
@@ -735,7 +735,7 @@ pVMDouble Universe::NewDouble( double value) const {
 }
 
 
-pVMFrame Universe::NewFrame( pVMFrame previousFrame, pVMMethod method) const {
+pVMFrame Universe::NewFrame( pVMFrame previousFrame, pVMMethod method)  {
     int length = method->GetNumberOfArguments() +
                  method->GetNumberOfLocals()+
                  method->GetMaximumNumberOfStackElements(); 
@@ -751,7 +751,8 @@ pVMFrame Universe::NewFrame( pVMFrame previousFrame, pVMMethod method) const {
 
     result->ResetStackPointer();
     result->SetBytecodeIndex(0);
-
+    //zg.don't we need to set it as global?
+   this->SetGlobal(frameClass->GetName(),(pVMObject)result);
     return result;
 }
 
@@ -785,7 +786,7 @@ pVMClass Universe::NewMetaclassClass() const {
 
 
 pVMMethod Universe::NewMethod( pVMSymbol signature, 
-                    size_t numberOfBytecodes, size_t numberOfConstants) const {
+                    size_t numberOfBytecodes, size_t numberOfConstants)  {
     //Method needs space for the bytecodes and the pointers to the constants
     int additionalBytes = numberOfBytecodes + 
                 numberOfConstants*sizeof(pVMObject);
@@ -794,7 +795,8 @@ pVMMethod Universe::NewMethod( pVMSymbol signature,
     result->SetClass(methodClass);
 
     result->SetSignature(signature);
-
+    //zg.don't we need to set it as global?
+     this->SetGlobal(signature,(pVMObject)result);
     return result;
 }
 
@@ -827,14 +829,14 @@ pVMSymbol Universe::NewSymbol( const char* str ) {
 }
 
 
-pVMClass Universe::NewSystemClass() const {
+pVMClass Universe::NewSystemClass()  {
     pVMClass systemClass = new (_HEAP) VMClass();
 
     systemClass->SetClass(new (_HEAP) VMClass());
     pVMClass mclass = systemClass->GetClass();
     
     mclass->SetClass(metaClassClass);
-
+    this->SetGlobal(SymbolForChars("SystemClass"),(pVMObject)systemClass);
     return systemClass;
 }
 

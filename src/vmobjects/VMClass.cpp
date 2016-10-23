@@ -167,6 +167,9 @@ pVMObject VMClass::LookupInvokable(pVMSymbol name) const {
     pVMInvokable invokable = NULL;
     for (int i = 0; i < GetNumberOfInstanceInvokables(); ++i) {
         invokable = (pVMInvokable)(GetInstanceInvokable(i));
+        if( NULL == invokable){
+        	break;
+        }
         if (invokable->GetSignature() == name) 
             return (pVMObject)(invokable);
     }
@@ -380,7 +383,7 @@ void VMClass::setPrimitives(void* dlhandle, const StdString& cname) {
         anInvokable = (pVMInvokable)(this->GetInstanceInvokable(i));
 #ifdef __DEBUG
         cout << "cname: >" << cname << "<"<< endl;
-        cout << an_invokable->GetSignature()->GetStdString() << endl;
+        cout << anInvokable->GetSignature()->GetStdString() << endl;
 #endif
         if(anInvokable->IsPrimitive()) {
 #ifdef __DEBUG

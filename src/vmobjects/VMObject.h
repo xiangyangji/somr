@@ -37,6 +37,7 @@ THE SOFTWARE.
 #include "../vm/Universe.h"
 #include "ObjectModel.hpp"
 
+#include "omrExampleVM.hpp"
 #include "ObjectFormats.h"
 #include "GCExtensionsBase.hpp"
 class VMSymbol;
@@ -59,7 +60,7 @@ class VMClass;
  **************************************************************
  */
 class OMRObjectHeader{
-private:
+public:
 	int32_t reserved;	//Reserved for OMR used.
 	int32_t reserved_align; //Align to the 0x8, These 4 bytes are no use now.
 };
@@ -74,6 +75,14 @@ public:
 	virtual void        SetClass(pVMClass cl);
 	virtual pVMSymbol   GetFieldName(int index) const; 
 	virtual int         GetFieldIndex(pVMSymbol fieldName) const;
+	//zg.add start
+	virtual int       GetNumberOfIndexableFields() const {return 0;};
+	virtual int       GetNumberOfMarkableFields() const {return GetNumberOfFields()+GetNumberOfIndexableFields();};
+	virtual pVMObject       GetMarkableFieldObj(int idx) const ;
+	//This impl may not workable for some class (such as VMInteger, but it only make sense for the class which has at lease one indexableFields. We can only focus on the VMARray and VMMethods
+	virtual pVMObject * GetStartOfAdditionalPoint() const{ return &(FIELDS[this->GetNumberOfFields()]);};
+   virtual void addToObjectTable();
+	//zg.add end.
 	virtual int         GetNumberOfFields() const;
 	virtual void        SetNumberOfFields(int nof);
 	virtual int         GetDefaultNumberOfFields() const;
@@ -86,7 +95,7 @@ public:
     virtual void        IncreaseGCCount() {};
     virtual void        DecreaseGCCount() {};
     //virtual void setObjectType(const char * ot) {strncpy(objectType,ot,OTLEN-1); objectType[OTLEN-1]=0;}
-     char * getObjectType(){return objectType;}
+     char * getObjectType() const {return (char *)objectType;}
     int32_t     GetHash() const { return hash; };
     int32_t     GetObjectSize() const;
 	int32_t     GetGCField() const;

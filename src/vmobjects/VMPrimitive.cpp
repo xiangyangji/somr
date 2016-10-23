@@ -57,7 +57,8 @@ VMPrimitive::VMPrimitive(pVMSymbol signature) : VMInvokable(VMPrimitiveNumberOfF
     _HEAP->EndUninterruptableAllocation();
 }
 
-
+int       VMPrimitive::GetNumberOfMarkableFields() const
+{return GetNumberOfFields()- VMPrimitiveNumberOfFields;}
 
 void VMPrimitive::MarkReferences() {
     if (gcfield) return;

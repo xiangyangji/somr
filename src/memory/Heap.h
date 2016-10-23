@@ -81,7 +81,7 @@ public:
    // void PrintFreeList();
     
     void FullGC();
-	
+    OMR_VM_Example * getVM(){return _vm;}
     
 private:
     static class Heap * theHeap;

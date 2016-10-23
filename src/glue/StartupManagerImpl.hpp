@@ -66,7 +66,7 @@ public:
 //#endif /* defined(OMR_GC_SEGREGATED_HEAP) */
 //	{
 //	}
-	MM_StartupManagerImpl(OMR_VM *omrVM,uintptr_t maxSize=2*1024*1024)
+	MM_StartupManagerImpl(OMR_VM *omrVM,uintptr_t maxSize=128*1024*1024)
 		: MM_StartupManager(omrVM, defaultMinimumHeapSize, maxSize)
 #if defined(OMR_GC_SEGREGATED_HEAP)
 		, _useSegregatedGC(false)

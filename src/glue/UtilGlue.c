@@ -17,6 +17,8 @@
  *******************************************************************************/
 
 #include "omr.h"
+#include <string.h>
+#include <stdlib.h>
 
 /* This glue function is implemented in a different file from LanguageVMGlue so that
  * it can be used without requiring all the dependencies of LanguageVMGlue.
@@ -38,5 +40,8 @@ OMR_Glue_GetVMDirectoryToken(void **token)
 char *
 OMR_Glue_GetThreadNameForUnamedThread(OMR_VMThread *vmThread)
 {
-	return "(unnamed thread)";
+	char * p = (char *)malloc(sizeof("(unnamed thread)")+1);
+	memset(p,0,sizeof("(unnamed thread)")+1);
+	strcpy(p,"(unnamed thread)");
+	return p;
 }

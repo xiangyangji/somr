@@ -157,30 +157,15 @@ VMObject* Heap::AllocateObject(size_t s) {
 //	
 	uintptr_t size = extensions->objectModel.adjustSizeInBytes(s);
 	//
+	if( size < s){//Impossible,.
+		printf("zg.ERROR!!%s,%s,%s\n",__FILE__,__FUNCTION__,__LINE__);
+		exit(1);
+	}
     VMObject* vmo = (VMObject*) Allocate(size);
     if(vmo != NULL){
     vmo->SetObjectSize(s);  //zg. save the requested size.
     //TODO: How to do so? zg.add this object into the objectTable.??How to define the name of it.
-//    
-   numAlloc++;
-   char * name =(char *)malloc(10);
-   memset(name,10,0);
-  sprintf(name,"obj%d",numAlloc);
-//  
-  // pVMSymbol psName =  _UNIVERSE->SymbolForChars(name);
-//   
-    ObjectEntry oEntry = {name,(omrobjectptr_t)vmo,0};
-//    
-	ObjectEntry *entryInTable = (ObjectEntry *)hashTableAdd(_vm->objectTable, &oEntry);
-//	 
-	OMRPORT_ACCESS_FROM_OMRVM(_vm->_omrVM);
-	if (NULL == entryInTable) {
-		omrtty_printf("failed to add new obect to objecttable!\n");
-	}
-	/* update entry if it already exists in table */
-	entryInTable->objPtr = (omrobjectptr_t)vmo;
-//	 
-   // exampleVM.objectTable->
+
     }
     return vmo;
 }
@@ -200,6 +185,8 @@ void* Heap::Allocate(size_t size) {
 	if (NULL != obj) {
 		extensions->objectModel.setObjectSize(obj, mm_allocdescription.getBytesRequested());
 		//((VMObject *) obj )->SetObjectSize(size);   //zg. no need to set.  as it's already in the first word( 4 bytes) .  The first byte is reserved for age&flag, and the remains 3 bytes are for size.
+	}else{
+		std::cout <<"ERROR: allocation failure."<<std::endl;
 	}
 
 

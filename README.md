@@ -21,5 +21,6 @@ To make it work , following instructions could do help.
 	make somrallclean
 
 	#Run the SOM
+	export LD_LIBRARY_PATH=.
 	./somr -cp Smalltalk Examples/Hello/Hello.som
 	./somr -cp Smalltalk Examples/Benchmarks/Sum.som

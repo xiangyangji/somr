@@ -184,13 +184,12 @@ MM_CollectorLanguageInterfaceImpl::markingScheme_masterCleanupAfterGC(MM_Environ
 uintptr_t
 MM_CollectorLanguageInterfaceImpl::markingScheme_scanObject(MM_EnvironmentBase *env, omrobjectptr_t objectPtr, MarkingSchemeScanReason reason)
 {
-	GC_ObjectIterator objectIterator(_omrVM, objectPtr);
-	GC_SlotObject *slotObject = NULL;
-	while (NULL != (slotObject = objectIterator.nextSlot())) {
-		omrobjectptr_t slot = slotObject->readReferenceFromSlot();
-		if (_markingScheme->isHeapObject(slot)) {
-			_markingScheme->markObject(env, slot);
-		}
+	int totalfields = ((pVMObject)objectPtr)->GetNumberOfMarkableFields();
+	for(int i =0 ; i<totalfields;i++){
+		omrobjectptr_t  onefield = (omrobjectptr_t)(((pVMObject)objectPtr)->GetMarkableFieldObj(i));
+			if (NULL != onefield && _markingScheme->isHeapObject(onefield)) {
+				_markingScheme->markObject(env, onefield);
+			}
 	}
 	return env->getExtensions()->objectModel.getSizeInBytesWithHeader(objectPtr);
 }

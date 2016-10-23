@@ -134,7 +134,8 @@ void      VMFrame::Push(pVMObject obj) {
 
 void VMFrame::PrintStack() const {
     cout << "SP: " << this->stackPointer->GetEmbeddedInteger() << endl;
-    for (int i = 0; i < this->GetNumberOfIndexableFields()+1; ++i) {
+   // for (int i = 0; i < this->GetNumberOfIndexableFields()+1; ++i) {
+    for (int i = 0; i < this->GetNumberOfIndexableFields(); ++i) {
         pVMObject vmo = (*this)[i];
         cout << i << ": ";
         if (vmo == NULL) 

@@ -48,9 +48,22 @@ VMObject::VMObject( int numberOfFields ) {
 	this->SetClass(NULL);
 	memset(objectType,0,OTLEN);
 	strcpy(objectType,"VMObject");
+	reserved_align  = 0;
+	addToObjectTable();
     //Object size is set by the heap
 }
 
+void VMObject::addToObjectTable(){
+	//
+
+	   char * name =(char *)malloc(20);
+	   memset(name,0,20);
+	  sprintf(name,"%9s%p",objectType,hash);
+	    ObjectEntry oEntry = {name,(omrobjectptr_t)this,0};
+		ObjectEntry *entryInTable = (ObjectEntry *)hashTableAdd(Heap::GetHeap()->getVM()->objectTable, &oEntry);
+		/* update entry if it already exists in table */
+		entryInTable->objPtr = (omrobjectptr_t)this;
+}
 
 void VMObject::SetNumberOfFields(int nof) {
     this->numberOfFields = nof;
@@ -168,11 +181,22 @@ int VMObject::GetAdditionalSpaceConsumption() const
 	//zg.this method didn't count the alignment .
 //    return (objectSize - (sizeof(VMObject) +
 //                          sizeof(pVMObject) * (this->GetNumberOfFields() - 1)));
-
-    return (objectSize - (sizeof(VMObject) +
-                             sizeof(pVMObject) * (this->GetNumberOfFields() - 1)));
+	int rt = (objectSize - (sizeof(VMObject) +
+            sizeof(pVMObject) * (this->GetNumberOfFields() - 1)));
+    return rt;
 }
 
+ pVMObject       VMObject::GetMarkableFieldObj(int idx) const {
+	 int fn = GetNumberOfFields();
+	 int in = GetNumberOfIndexableFields();
+	 if(idx <fn ){
+		 return (pVMObject) FIELDS[idx];
+	 }else if (idx<fn+in){
+		 return (pVMObject)*(GetStartOfAdditionalPoint()+(idx-fn));
+	 }else {
+		 return NULL;
+	 }
+ }
 
 void VMObject::MarkReferences() {
     if (this->gcfield) return;
