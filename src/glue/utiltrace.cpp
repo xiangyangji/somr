@@ -13,11 +13,11 @@
 #include <pthread.h>
 
 void __trace(const char * file,const char * func,int line,char * tp,char * other){
-	pid_t tid = syscall(SYS_gettid);
+	//pid_t tid = syscall(SYS_gettid);
 	pthread_t ptid = pthread_self();
 	char * filename = (char *)strrchr(file,'/');
 	if(filename == NULL) {filename =(char *) file ; filename--;}
-	printf("ptid=%u,%s:%d.(%s):%s,%s\n",ptid,++filename,line,func,tp,other);
+	printf("ptid=%ld,%s:%d.(%s):%s,%s\n",ptid,++filename,line,func,tp,other);
 }
 
 

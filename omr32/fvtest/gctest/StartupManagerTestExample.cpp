@@ -89,9 +89,10 @@ MM_StartupManagerTestExample::parseLanguageOptions(MM_GCExtensionsBase *extensio
 #if defined(OMR_GC_MODRON_CONCURRENT_MARK)
 					extensions->concurrentMark = extensions->scavengerEnabled || (0 == j9_cmdla_stricmp(attr.value(), "optavgpause"));
 #endif /* defined(OMR_GC_MODRON_CONCURRENT_MARK)*/
-#endif /* defined(OMR_GC_MODRON_SCAVENGER) */
+
 				} else if (0 == strcmp(attr.name(), "forceBackOut")) {
 					extensions->fvtest_forceScavengerBackout = (0 == j9_cmdla_stricmp(attr.value(), "true"));
+#endif /* defined(OMR_GC_MODRON_SCAVENGER) */
 				} else if ((0 == strcmp(attr.name(), "verboseLog")) || (0 == strcmp(attr.name(), "numOfFiles")) || (0 == strcmp(attr.name(), "numOfCycles")) || (0 == strcmp(attr.name(), "sizeUnit"))) {
 				} else {
 					result = false;

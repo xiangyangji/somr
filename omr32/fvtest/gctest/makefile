@@ -33,9 +33,10 @@ OBJECTS := $(addsuffix $(OBJEXT),$(OBJECTS))
 
 MODULE_INCLUDES += ./configuration $(OMR_PUGIXML_DIR) $(OMR_GTEST_INCLUDES) ../util
 MODULE_INCLUDES += \
-  $(top_srcdir)/example/glue \
+  $(OMRGLUE)\
   $(OMR_IPATH) \
   $(OMRGC_IPATH)
+  #$(top_srcdir)/example/glue 
 
 MODULE_CXXFLAGS += $(OMR_GTEST_CXXFLAGS) -DSPEC=$(SPEC)
 

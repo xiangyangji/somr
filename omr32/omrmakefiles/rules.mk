@@ -47,6 +47,7 @@
 all:
 
 clean:
+	@echo "zg.rules.mk.OMRGLUE=${OMRGLUE}="
 	$(CLEAN_COMMAND)
 .PHONY: all clean
 
@@ -316,6 +317,7 @@ ifeq ($(ARTIFACT_TYPE),archive)
 $(MODULE_NAME)_static := $(lib_output_dir)/$(LIBPREFIX)$(MODULE_NAME)$(ARLIBEXT)
 all: $($(MODULE_NAME)_static)
 $($(MODULE_NAME)_static): $(OBJECTS) $(DEPENDENCIES)
+	@echo "zg.rule.mk--${OMRGLUE}--"
 	$(AR_COMMAND)
 
 # clean the library when `make clean`

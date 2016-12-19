@@ -94,8 +94,8 @@ test_targets += fvtest/threadextendedtest
 endif
 
 # OMR GLue Target
-# zg. remove it.
-#main_targets += omr_glue_static_lib
+# zg. remove it.If remove, fvt test make fail.
+main_targets += omr_glue_static_lib
 
 # Garbage Collection Targets
 ifeq (1,$(OMR_GC))
@@ -149,6 +149,8 @@ endif
 
 # VM Tests
 test_targets += fvtest/vmtest
+#zgadd to enable the FVT.
+ENABLE_FVTEST := yes
 
 DO_TEST_TARGET := yes
 # ENABLE_FVTEST_AGENT forces rastest to build, even if fvtests are disabled.

@@ -42,8 +42,12 @@ include $(top_srcdir)/omrmakefiles/omrcfg.mk
 # We can't convert OMRGLUE to absolute paths because, for z/OS, Windows, and AIX,
 # the J9 build runs configure and compiles in different directory structures.
 #OMRGLUE ?= $(filter /%,./example/glue)$(addprefix $(top_srcdir)/,$(filter-out /%,./example/glue))
-#zg. Trying to using the glue in some++
-OMRGLUE := $(top_srcdir)/../src/glue $(top_srcdir)/../src/vmobjects
+#zg. Trying to using the glue in some++.Can not use ../src/glue directly. Don't know why???TODOTODOTODO
+OMRGLUE ?= $(filter /%,../src/glue)$(addprefix $(top_srcdir)/,$(filter-out /%,../src/glue))
+#OMRGLUE := ../src/glue
+#OMRGLUE_INCLUDE+=$(top_srcdir)/../src/vmobjects
+#OMRGLUE ?= $(filter /%,../src/glue) $(addprefix $(top_srcdir)/,$(filter-out /%,../src/glue))
+
 
 OMR_CROSS_COMPILE := 0
 
@@ -63,7 +67,7 @@ LDFLAGS :=
 OMRGLUE_CPPFLAGS := 
 OMRGLUE_CFLAGS := 
 OMRGLUE_CXXFLAGS := 
-OMRGLUE_INCLUDES := $(OMRGLUE) $(filter /%,) $(addprefix $(top_srcdir)/,$(filter-out /%,))
+OMRGLUE_INCLUDES := $(OMRGLUE) $(top_srcdir)/../src/vmobjects $(filter /%,) $(addprefix $(top_srcdir)/,$(filter-out /%,))
 
 # GNU make provides a default value for ARFLAGS. We want to override it with our own value.
 ARFLAGS = 
