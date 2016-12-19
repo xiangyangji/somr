@@ -34,6 +34,8 @@ class MM_ForwardedHeader;
 class MM_MarkingScheme;
 class MM_MemorySubSpaceSemiSpace;
 
+void addUninterruptableAllocationObject(omrobjectptr_t objptr);    // TODD @A1A
+void removeAllUninterruptableAllocationObject();                   // TODD @A1A
 /**
  * Class representing a collector language interface.  This implements the API between the OMR
  * functionality and the language being implemented.

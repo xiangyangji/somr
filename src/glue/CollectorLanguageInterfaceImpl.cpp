@@ -47,6 +47,24 @@
 #include "SlotObject.hpp"
 #include "SublistFragment.hpp"
 
+// TODD @A1A Begin
+//#define TODD_DEBUG
+static omrobjectptr_t UninterruptableAllocationObjectArray[1024*64];
+static int UninterruptableAllocationObjectCount = 0;
+static int MaxUninterruptableAllocationObjectCount = 0;
+
+void addUninterruptableAllocationObject(omrobjectptr_t objptr)
+{   
+    UninterruptableAllocationObjectArray[UninterruptableAllocationObjectCount++] = objptr;   
+    if( UninterruptableAllocationObjectCount > MaxUninterruptableAllocationObjectCount)
+    {   MaxUninterruptableAllocationObjectCount = UninterruptableAllocationObjectCount;
+    }
+}
+
+void removeAllUninterruptableAllocationObject()
+{   UninterruptableAllocationObjectCount = 0;    
+}
+// TODD @A1A End
 /* This enum extends ConcurrentStatus with values > CONCURRENT_ROOT_TRACING. Values from this
  * and from ConcurrentStatus are treated as uintptr_t values everywhere except when used as
  * case labels in switch() statements where manifest constants are required.
@@ -149,6 +167,15 @@ MM_CollectorLanguageInterfaceImpl::markingScheme_scanRoots(MM_EnvironmentBase *e
 		_markingScheme->markObject(env, rEntry->rootPtr);
 		rEntry = (RootEntry *)hashTableNextDo(&state);
 	}
+    
+#ifdef TODD_DEBUG 
+    printf("ScanRoot for Uninterrupt Object, count=%d, max=%d\n"
+            , UninterruptableAllocationObjectCount
+            , MaxUninterruptableAllocationObjectCount);
+#endif
+    for(int i = 0; i < UninterruptableAllocationObjectCount; ++i)
+    {   _markingScheme->markObject(env, UninterruptableAllocationObjectArray[i]);        
+    }
 }
 
 void

@@ -75,8 +75,8 @@ public:
     void Free(void* ptr);
 	void Destroy(VMObject*);
 	
-    void StartUninterruptableAllocation() { ++uninterruptableCounter; } ;
-    void EndUninterruptableAllocation() { --uninterruptableCounter; } ;
+    void StartUninterruptableAllocation();  // TODD @A1M: Enhance UninterruptableXXX functions to prevent  
+    void EndUninterruptableAllocation();    // the new allocated memory being deleted - 11/06/2016
 
    // void PrintFreeList();
     

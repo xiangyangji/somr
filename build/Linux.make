@@ -52,7 +52,7 @@ OMR_LIBS =-L. -L${DIR_OMR} -L${DIR_OMR}/lib -Xlinker --start-group -lj9omr \
  -lj9hookstatic -lj9prtstatic -lj9thrstatic -lomrgcverbose -lomrgcverbosehandlerstandard \
   -lomrutil -lj9avl -lj9hashtable \
  -lj9pool -lomrtrace -lomrvmstartup -Xlinker --end-group -lm -lpthread -lc -ldl -lutil -fpic \
- -ggdb 
+ -ggdb -lrt
  #-liconv 
 
 
