@@ -112,8 +112,8 @@ uintptr_t
 objectTableFreeFn(void *entry, void *userData)
 {
 //	 
-	OMR_VM_Example *exampleVM = (OMR_VM_Example *)userData;
-	OMRPORT_ACCESS_FROM_OMRVM(exampleVM->_omrVM);
+//	OMR_VM_Example *exampleVM = (OMR_VM_Example *)userData;
+//	OMRPORT_ACCESS_FROM_OMRVM(exampleVM->_omrVM);
 //	 
 	ObjectEntry *objEntry = (ObjectEntry *)entry;
 //	
