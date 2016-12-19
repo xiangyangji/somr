@@ -184,6 +184,7 @@ void* Heap::Allocate(size_t size) {
 
 	if (NULL != obj) {
 		extensions->objectModel.setObjectSize(obj, mm_allocdescription.getBytesRequested());
+        addUninterruptableAllocationObject(obj);      // TODD @A1A Begin
 		//((VMObject *) obj )->SetObjectSize(size);   //zg. no need to set.  as it's already in the first word( 4 bytes) .  The first byte is reserved for age&flag, and the remains 3 bytes are for size.
 	}else{
 		std::cout <<"ERROR: allocation failure."<<std::endl;
@@ -270,3 +271,18 @@ void* Heap::internalAllocate(size_t size) {
     memset(result, 0, size);
     return result;
 }
+
+// TODD @A1A Begin
+void Heap::StartUninterruptableAllocation() 
+{ 
+    ++uninterruptableCounter; 
+}
+
+
+void Heap::EndUninterruptableAllocation() 
+{   
+    if( (--uninterruptableCounter) == 0 )
+    {   removeAllUninterruptableAllocationObject();        
+    }
+}
+// TODD @A1A End
